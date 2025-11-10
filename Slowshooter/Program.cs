@@ -153,7 +153,12 @@ namespace Slowshooter
             Console.SetCursorPosition(p1_x_pos, p1_y_pos);
             Console.ForegroundColor = playerColors[0];
             Console.Write("O");
-
+            if (Bullet == true)
+            {
+                Console.SetCursorPosition(p1_BulletPosX, p1_BulletPosY);
+                Console.Write('x');
+                p1_BulletPosX += 1;
+            }
             // draw player 2
             Console.SetCursorPosition(p2_x_pos, p2_y_pos);
             Console.ForegroundColor = playerColors[1];
