@@ -158,11 +158,40 @@ namespace Slowshooter
                 Console.SetCursorPosition(p1_BulletPosX, p1_BulletPosY);
                 Console.Write('x');
                 p1_BulletPosX += 1;
+                if(p1_BulletPosX == 12)
+                {
+                    Bullet = false;
+                }
+                else if (p1_BulletPosX == p2_x_pos && p1_BulletPosY == p2_y_pos)
+                {
+                    Console.Clear();
+                    Console.WriteLine("GameOver Player 1 Wins");
+                    isPlaying = false;
+                    return;
+                }
             }
             // draw player 2
             Console.SetCursorPosition(p2_x_pos, p2_y_pos);
             Console.ForegroundColor = playerColors[1];
             Console.Write("O");
+            if (Bullet2 == true)
+            {
+                Console.SetCursorPosition(p2_BulletPosX, p2_BulletPosY);
+                Console.Write('x');
+                p2_BulletPosX -= 1;
+
+                if (p2_BulletPosX == 0)
+                {
+                    Bullet2 = false;
+                }
+                else if (p2_BulletPosX == p1_x_pos && p2_BulletPosY == p1_BulletPosY)
+                {
+                    Console.Clear();
+                    Console.WriteLine("GameOver Player 2 Wins");
+                    isPlaying = false;
+                    return;
+                }
+            }
 
             // draw the Turn Indicator
             Console.SetCursorPosition(3, 5);
@@ -174,7 +203,7 @@ namespace Slowshooter
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("\nUSE WASD or IJKL to move");
             Console.ForegroundColor = ConsoleColor.White;
-
+            
             
 
 
