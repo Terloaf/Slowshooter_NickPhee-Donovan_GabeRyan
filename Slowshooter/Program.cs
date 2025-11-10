@@ -201,7 +201,7 @@ namespace Slowshooter
 
 
             Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.WriteLine("\nUSE WASD or IJKL to move");
+            Console.WriteLine("\nUSE WASD or IJKL to move and Space to shoot");
             Console.ForegroundColor = ConsoleColor.White;
             
             
