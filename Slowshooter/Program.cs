@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
@@ -50,9 +51,16 @@ namespace Slowshooter
         static int p1_min_max_Bullet = 11;
         static int p2_min_max_Bullet = 1;
 
+        static int P1SpikeX = 0;
+        static int P1SpikeY = 0;
+        static int P2SpikeX = 0;
+        static int P2SpikeY = 0;
         // what turn is it? will be 0 after game is drawn the first time
         static int turn = -1;
 
+        //spike list
+        static List<(int, int)> P1spikePos = new List<(int, int)>();
+        static List<(int, int)> P2spikePos = new List<(int, int)>();
         // contains the keys that player 1 and player 2 are allowed to press
         static (char[], char[]) allKeybindings = (new char[]{ 'W', 'A', 'S', 'D', ' '}, new char[]{ 'J', 'I', 'L', 'K', ' '});
         static ConsoleColor[] playerColors = { ConsoleColor.Red, ConsoleColor.Blue };
@@ -60,8 +68,8 @@ namespace Slowshooter
         static void Main(string[] args)
         {
             Console.CursorVisible = false;
-
-            while(isPlaying)
+            
+            while (isPlaying)
             {
                 ProcessInput();
                 Update();
@@ -106,12 +114,21 @@ namespace Slowshooter
             if (input == ConsoleKey.I) p2_y_input = -1;
             if (input == ConsoleKey.K) p2_y_input = 1;
 
-            count += 1;
+
         }
 
         static void Update()
         {
+
+
+
+
+
             
+
+            
+
+
             // update players' positions based on input
             p1_x_pos += p1_x_input;
             p1_x_pos = p1_x_pos.Clamp(p1_min_max_x.Item1, p1_min_max_x.Item2);
@@ -142,9 +159,56 @@ namespace Slowshooter
                 Bullet2 = true;
                 spacePress = false;
             }
-            turn += 1;
             
 
+            turn += 1;
+            count += 1;
+
+            if (turn > 1 && count % 3 == 0)
+            {
+                P1SpikeX = random.Next(2, 4);
+                P1SpikeY = random.Next(1, 4);
+
+                P2SpikeX = random.Next(10, 11);
+                P2SpikeY = random.Next(1, 4);
+
+                if (p1_x_pos == P1SpikeX && p1_y_pos == P1SpikeY)
+                {
+                    return;
+                }
+                if (p2_x_pos == P2SpikeX && p2_y_pos == P2SpikeY)
+                {
+                    return;
+                }
+                P1spikePos.Add((P1SpikeX, P1SpikeY));
+                P2spikePos.Add((P2SpikeX, P2SpikeY));
+                
+
+            }
+
+            for (int P = 0; P < P1spikePos.Count; P++)
+            {
+                if(p1_x_pos == P1spikePos[P].Item1 && p1_y_pos == P1spikePos[P].Item2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("GameOver Player 2 Wins");
+                    Console.ReadKey();
+                    isPlaying = false;
+                    return;
+                }
+            }
+
+            for (int P = 0; P < P2spikePos.Count; P++)
+            {
+                if (p2_x_pos == P2spikePos[P].Item1 && p2_y_pos == P2spikePos[P].Item2)
+                {
+                    Console.Clear();
+                    Console.WriteLine("GameOver Player 1 Wins");
+                    Console.ReadKey();
+                    isPlaying = false;
+                    return;
+                }
+            }
         }
 
         static void Draw()
@@ -162,11 +226,6 @@ namespace Slowshooter
             {
                 Console.SetCursorPosition(p1_BulletPosX, p1_BulletPosY);
                 Console.Write('x');
-
-                if(count == 3)
-                {
-                    //Console.SetCursorPosition(P1)
-                }
 
                 p1_BulletPosX += 1;
                 if(p1_BulletPosX == 12)
@@ -214,10 +273,22 @@ namespace Slowshooter
             Console.ForegroundColor = ConsoleColor.DarkGray;
             Console.WriteLine("\nUSE WASD or IJKL to move and Space to shoot");
             Console.ForegroundColor = ConsoleColor.White;
-            
-            
 
+           
+            for (int L = 0; L < P1spikePos.Count; L++)
+            {
+                Console.SetCursorPosition(P1spikePos[L].Item1, P1spikePos[L].Item2);
+                Console.Write("#");
 
+            }
+            for (int L = 0; L < P2spikePos.Count; L++)
+            {
+                Console.SetCursorPosition(P1spikePos[L].Item1, P1spikePos[L].Item2);
+                Console.Write("#");
+
+            }
         }
+
+
     }
 }
