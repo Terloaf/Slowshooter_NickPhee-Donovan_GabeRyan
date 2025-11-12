@@ -283,7 +283,7 @@ namespace Slowshooter
             }
             for (int L = 0; L < P2spikePos.Count; L++)
             {
-                Console.SetCursorPosition(P1spikePos[L].Item1, P1spikePos[L].Item2);
+                Console.SetCursorPosition(P2spikePos[L].Item1, P2spikePos[L].Item2);
                 Console.Write("#");
 
             }
