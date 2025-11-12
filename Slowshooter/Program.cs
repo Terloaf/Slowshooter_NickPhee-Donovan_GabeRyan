@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 
 namespace Slowshooter
 {
     internal class Program
     {
-
+        static Random random = new Random();
+        static int count = 0;
         static string playField = 
 @"+---+   +---+
 |   |   |   |
@@ -104,10 +106,12 @@ namespace Slowshooter
             if (input == ConsoleKey.I) p2_y_input = -1;
             if (input == ConsoleKey.K) p2_y_input = 1;
 
+            count += 1;
         }
 
         static void Update()
         {
+            
             // update players' positions based on input
             p1_x_pos += p1_x_input;
             p1_x_pos = p1_x_pos.Clamp(p1_min_max_x.Item1, p1_min_max_x.Item2);
@@ -145,6 +149,7 @@ namespace Slowshooter
 
         static void Draw()
         {
+            
             // draw the background (playfield)
             Console.SetCursorPosition(0, 0);
             Console.Write(playField);
@@ -157,6 +162,12 @@ namespace Slowshooter
             {
                 Console.SetCursorPosition(p1_BulletPosX, p1_BulletPosY);
                 Console.Write('x');
+
+                if(count == 3)
+                {
+                    //Console.SetCursorPosition(P1)
+                }
+
                 p1_BulletPosX += 1;
                 if(p1_BulletPosX == 12)
                 {
